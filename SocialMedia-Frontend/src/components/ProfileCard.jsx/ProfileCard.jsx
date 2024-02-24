@@ -7,6 +7,7 @@ import {Link} from 'react-router-dom';
 
 const ProfileCard = ({location}) => {
 
+  // console.log(location);
   const user = useSelector((state)=>state.user.currentUser);
   const post = useSelector((state)=>state.post);
   const [coverImage, setCoverImage] = useState(null);
@@ -18,8 +19,10 @@ const ProfileCard = ({location}) => {
       <div className="ProfileImages">
       <img src={user.user.coverPicture ? user.user.coverPicture : Cover} alt="" />
       
+      
   
       <img src={user.user.profilePicture ? user.user.profilePicture : Profile} alt="" />
+      
 
     
       </div>

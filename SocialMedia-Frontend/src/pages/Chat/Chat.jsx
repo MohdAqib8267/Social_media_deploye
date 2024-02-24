@@ -135,26 +135,34 @@ const Chat = () => {
   const dispatch = useDispatch();
   const socket = useRef();
   const user = useSelector((state) => state.user.currentUser);
-
+  const [chatList,setChatList]=useState([]);
   const [chats, setChats] = useState([]);
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
   const [sendMessage, setSendMessage] = useState(null);
   const [receivedMessage, setReceivedMessage] = useState(null);
   // Get the chat in chat section
+
+  // console.log(user);
   useEffect(() => {
+    
+
     const getChats = async () => {
       try {
         const data = await axios.get(
                     `http://localhost:5000/chat/${user.user._id}`
                   );
         setChats(data.data);
+        // console.log(data);
       } catch (error) {
         console.log(error);
       }
     };
     getChats();
+    
+    
   }, [user.user._id]);
+ 
 
   // Connect to Socket.io
   useEffect(() => {
@@ -192,8 +200,9 @@ const Chat = () => {
     // console.log(online);  
 
     return online ? true : false;
+    
   };
-
+// console.log(chatList);
   return (
     <div className="Chat">
          {/* left side */}
@@ -202,6 +211,7 @@ const Chat = () => {
         <div className="Chat-container">
           <h2>Chats</h2>
           <div className="Chat-list">
+            
             {chats.map((chat) => (
               <div
                 onClick={() => {

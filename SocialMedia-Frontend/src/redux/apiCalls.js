@@ -46,7 +46,7 @@ export const uploadImg = async(dispatch,newPost)=>{
     // console.log(newPost);
     dispatch(addPostStart());
     try {
-        const res = await axios.post("https://social-media-feista-backend.vercel.app/post",newPost);
+        const res = await axios.post("http://localhost:5000/post",newPost);
         // console.log(res.data); 
         dispatch(addPostSuccess(res.data));
     } catch (error) {

@@ -2,16 +2,17 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import defaultPicture from '../../img/images.jpeg';
 const Conversation = ({ data, currentUser ,online}) => {
+  console.log({data,currentUser,online});
   const [userData, setUserData] = useState(null);
   useEffect(() => {
     // console.log(data);
     const userId = data.members.find((id) => id !== currentUser);
-    // console.log(userId)
+    // console.log('yes');  
 
     const getUserData = async () => {
       try {
         const data = await axios.get(`http://localhost:5000/user/${userId}`);
-        // console.log(data);
+        console.log(data);
         setUserData(data.data);
       } catch (error) {
         console.log(error);

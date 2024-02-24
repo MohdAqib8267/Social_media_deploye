@@ -163,8 +163,11 @@ import { format } from "timeago.js";
 import defaultPicture from "../../img/images.jpeg";
 import axios from "axios";
 import InputEmoji from "react-input-emoji";
+import { io } from "socket.io-client";
 
 const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) => {
+
+  const socket = io("http://localhost:5000");
   const [userData, setUserData] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
@@ -254,13 +257,14 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) => {
     //send message to socket server
     const receiverId = chat.members.find((id) => id !== currentUser);
     setSendMessage({ ...message, receiverId });
+    socket.emit('send-message', message); 
   };
 
   // Receive Message from parent component
   useEffect(() => {
     console.log("Message Arrived: ", receivedMessage);
     if (receivedMessage !== null && receivedMessage.chatId === chat._id) {
-      setMessages({ ...messages, receivedMessage });
+      setMessages([...messages, receivedMessage]);
     }
   }, [receivedMessage]);
 
@@ -302,9 +306,9 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) => {
             </div>
             {/* chat-body */}
             <div className="chat-body">
-            {messages.map((message) => (
+            {Array.isArray(messages) && messages.map((message,index) => (
             <>
-              <div ref={scroll}
+              <div ref={scroll} key={index}
                 className={
                   message.senderId === currentUser ? "message own" : "message"
                 }

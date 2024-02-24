@@ -125,6 +125,6 @@ export const getTimelinePost =async(req,res)=>{
            return  b.createdAt - a.createdAt;
         }));
     } catch (error) {
-        res.status(500).json(error);
+        res.status(500).json(error); 
     }
 }

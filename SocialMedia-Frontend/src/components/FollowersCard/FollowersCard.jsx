@@ -14,19 +14,22 @@ const FollowersCard = () => {
     const fetchPersons = async()=>{
       let data = await axios.get('http://localhost:5000/user');
       
-      setPersons(data.data.slice(-5));
+      // setPersons(data.data.slice(-5));
+      setPersons(data.data);
     }
     fetchPersons();
   },[]);
- // console.log(persons);
+//  console.log(persons);
+// console.log(user);
   return (
     <div className="FollowersCard">
         <h3>People you may know</h3>
 
         {persons.map((person, id) => {
-        if (person._id !== user._id) return <User person={person} key={id} />;
+        if (person._id != user?.user?._id) 
+        return <User person={person} key={id} />;
       })}
-    </div>
+    </div> 
   )
 }
 

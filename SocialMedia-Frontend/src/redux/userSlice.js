@@ -67,7 +67,7 @@ export const userSlice = createSlice({
         },
         followSuccess:(state,action)=>{
             state.isFetching=false;
-            console.log(action.payload);
+            // console.log(action.payload);
             
             // state.currentUser=action.payload;
             state.currentUser.user.following.push(action.payload.followUser._id);

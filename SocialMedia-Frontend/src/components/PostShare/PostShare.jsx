@@ -20,7 +20,7 @@ import { app } from "../../firebase";
 const PostShare = () => {
   const [image, setImage] = useState(null);
   const imageRef = useRef();
-  const desc = useRef();
+  const [desc,setDesc]=useState('');
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.user.currentUser);
@@ -36,7 +36,8 @@ const PostShare = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // console.log(image.name);
-    const fileName = Date.now() + image.name;
+    
+    const fileName = Date.now() + image?.name;
     const storage = getStorage(app);
     const storageRef = ref(storage, fileName);
     const uploadTask = uploadBytesResumable(storageRef, image);
@@ -72,7 +73,7 @@ const PostShare = () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           // console.log("File available at", downloadURL);
           // console.log({image:downloadURL,userId:user.user._id,desc:desc.current.value});
-          const newPost = ({image:downloadURL,userId:user.user._id,desc:desc.current.value})
+          const newPost = ({image:downloadURL,userId:user.user._id,desc:desc})
           // console.log(desc.current.value);
           uploadImg(dispatch,newPost);
           
@@ -82,6 +83,7 @@ const PostShare = () => {
 resetShare();
     
   };
+  
 
   const resetShare=()=>{
     setImage(null);
@@ -91,7 +93,7 @@ resetShare();
     <div className="PostShare">
       <img src={user.user.profilePicture?user.user.profilePicture: ProfileImage} alt="" />
       <div>
-        <input type="text" ref={desc} required placeholder="What's happening" />
+        <input type="text" value={desc} onChange={(e)=>setDesc(e.target.value)}required placeholder="What's happening" />
         <div className="postOptions">
           <div
             className="option"
